@@ -10,4 +10,4 @@ connectDB().then(() => {
     server.listen(PORT, () => {
         console.log(`Server is successfully running on port ${PORT}`);
     });
-});
+}); 
