@@ -4,6 +4,12 @@ const Event = require("../models/Event");
 
 trackRouter.post("/event", async (req, res) => {
     try {
+        // ⚡ FIX: Block Meta/Facebook crawlers from creating fake analytics
+        const ua = req.get('User-Agent') || '';
+        if (/facebookexternalhit|Facebot|WhatsApp|Twitterbot|Googlebot|bytespider/i.test(ua)) {
+            return res.status(200).json({ success: true, message: "Bot traffic ignored" });
+        }
+
         const { eventType, path, productName, orderTotal, customerData, utmSource, deviceType, sessionId } = req.body;
 
         if (!sessionId || !eventType) {
