@@ -12,15 +12,29 @@ const PORT = process.env.PORT || 5000;
 // 1. Create HTTP server from Express app
 const server = http.createServer(app);
 
-// 2. Initialize Socket.io with CORS enabled
+// 2. Initialize Socket.io with allowed origins (Netlify + Localhost)
 const io = new Server(server, {
     cors: {
-        origin: "*",
-        methods: ["GET", "POST"]
+        origin: [
+            "https://loomzoindia.netlify.app",
+            "http://localhost:5173", // default Vite local port
+            "http://localhost:3000"  // alternative local port
+        ],
+        methods: ["GET", "POST"],
+        credentials: true
     }
 });
 
-app.use(cors());
+// Express CORS setup matching the same rules
+app.use(cors({
+    origin: [
+        "https://loomzoindia.netlify.app",
+        "http://localhost:5173",
+        "http://localhost:3000"
+    ],
+    credentials: true
+}));
+
 app.use(express.json());
 
 // 3. Make `io` accessible inside Express request handlers (`req.io`)
