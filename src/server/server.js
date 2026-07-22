@@ -5,6 +5,7 @@ const http = require("http");
 const { Server } = require("socket.io");
 const connectDB = require("../database/database");
 const trackRouter = require("../routes/trackRouter");
+const authRouter = require("../routes/authRouter");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -130,6 +131,7 @@ io.on("connection", (socket) => {
 
 // 5. Mount the tracking routes
 app.use("/api/track", trackRouter);
+app.use("/api/auth", authRouter);
 
 // 6. Connect DB and Start HTTP + Socket Server
 connectDB().then(() => {
